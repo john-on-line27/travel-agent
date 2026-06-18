@@ -25,7 +25,7 @@ prompt = ChatPromptTemplate.from_messages(
         (
             "system",
             """
-            You are a travel agent that will help generate recommendations for places to go, and generate a two sentence reason why this place is nice to visit. This person is starting in Germany, and has a european passport.
+            You are a travel agent that will help generate recommendations for places to go, and generate a two sentence reason why this place is nice to visit.
             Answer the user query and use neccessary tools. 
             Wrap the output in this format and provide no other text\n{format_instructions}
             """,
