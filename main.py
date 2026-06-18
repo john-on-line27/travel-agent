@@ -1,13 +1,14 @@
 from dotenv import load_dotenv
+load_dotenv()
+
 from pydantic import BaseModel
 from langchain_openai import ChatOpenAI
-from langchain_anthropic import ChatAnthropic
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import PydanticOutputParser
 from langchain.agents import create_tool_calling_agent, AgentExecutor
 from tools import search_tool
 
-load_dotenv()
+
 
 class ResearchResponse(BaseModel):
     topic: str
@@ -43,7 +44,19 @@ agent = create_tool_calling_agent(
 )
 
 agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
-query = input("What kind of travel would you like to do? ")
+print("Let's plan your trip!\n")
+budget = input("What is your budget level? (budget / mid-range / luxury): ")
+duration = input("How long is your trip? (e.g. 1 week, 10 days): ")
+interests = input("What are your travel interests? (e.g. beaches, history, food): ")
+starting_location = input("Where are you starting from? (e.g. Berlin, Munich): ")
+
+query = f"""
+I want to do a {duration} trip with a {budget} budget.
+My interests are: {interests}.
+I am starting from {starting_location}.
+Please recommend destinations and explain why each is a good fit.
+"""
+
 raw_response = agent_executor.invoke({"query": query})
 
 try:
