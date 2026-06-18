@@ -9,5 +9,10 @@ search_tool = Tool(
     description="Search the web for information",
 )
 
-api_wrapper = WikipediaAPIWrapper(top_k_results=1, doc_content_chars_max=100)
-wiki_tool = WikipediaQueryRun(api_wrapper=api_wrapper)
+try:
+    api_wrapper = WikipediaAPIWrapper(top_k_results=1, doc_content_chars_max=500)
+    wiki_tool = WikipediaQueryRun(api_wrapper=api_wrapper)
+except Exception:
+    wiki_tool = None
+
+tools = [t for t in [search_tool, wiki_tool] if t is not None]
